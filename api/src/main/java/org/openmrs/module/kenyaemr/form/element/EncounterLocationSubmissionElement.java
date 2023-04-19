@@ -59,7 +59,8 @@ public class EncounterLocationSubmissionElement implements HtmlGeneratorElement,
 		} else {
 			String defaultLocId = parameters.get("default");
 			if (StringUtils.hasText(defaultLocId)) {
-				defaultLocation = HtmlFormEntryUtil.getLocation(defaultLocId, context);
+				String defaultFacility = Context.getAuthenticatedUser().getUserProperty("kenyaemr.defaultLocation");
+				defaultLocation = Context.getLocationService().getLocation(Integer.parseInt(defaultFacility));
 			}
 		}
 

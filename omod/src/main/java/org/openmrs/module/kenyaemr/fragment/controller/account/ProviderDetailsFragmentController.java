@@ -31,7 +31,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Editable Provider details
@@ -109,6 +111,12 @@ public class ProviderDetailsFragmentController {
 				ret.setPerson(person);
 			}
 			User thisUser = Context.getUserService().getUsersByPerson(person, false).get(0);
+			if (!StringUtils.isEmpty(providerFacility)) {
+				Map<String, String> defaultLocation = new HashMap<String, String>();
+				defaultLocation.put("kenyaemr.defaultLocation", providerFacility);
+				thisUser.setUserProperties(defaultLocation);
+				Context.getUserService().saveUser(thisUser);
+			}
 			String userSystemId = thisUser.getSystemId();
 			ret.setIdentifier(userSystemId);
 			
